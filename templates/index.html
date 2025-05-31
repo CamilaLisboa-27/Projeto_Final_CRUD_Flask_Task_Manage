@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Minhas Tarefas{% endblock %}
+{% block content %}
+<h1>Minhas Tarefas</h1>
+<a href="{{ url_for('create_task') }}" class="btn btn-success mb-3">Nova Tarefa</a>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Descrição</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks %}
+      <tr>
+        <td>{{ task['title'] }}</td>
+        <td>{{ task['description'] }}</td>
+        <td>
+          <a href="{{ url_for('edit_task', task_id=task['id']) }}" class="btn btn-primary btn-sm">Editar</a>
+          <form action="{{ url_for('delete_task', task_id=task['id']) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Deseja deletar?');">Deletar</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="3">Nenhuma tarefa encontrada.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
